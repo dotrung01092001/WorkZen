@@ -1,17 +1,27 @@
-import { type Task } from '../types';
-
-const TASKS: Task[] = [
-  { id: '1', title: 'Design UI', assignee: 'John', status: 'todo' },
-];
+import { useTask } from "@/contexts/TaskContext";
+import type { Task } from "@/types/task";
+import { DataTable } from "@/components/commons/DataTable";
+import { useEmployee } from "@/contexts/EmployeeContext";
 
 export function TaskTable() {
-  return (
-    <ul className="space-y-2">
-      {TASKS.map(task => (
-        <li key={task.id} className="border p-3 rounded">
-          {task.title} – {task.status}
-        </li>
-      ))}
-    </ul>
-  );
+  const { tasks } = useTask();
+  const { employees } = useEmployee();
+
+  type TaskRow = Task & { assigneeName: string };
+
+  const data: TaskRow[] = tasks.map(task => ({
+    ...task,
+    assigneeName:
+      employees.find(e => e.id === task.assignee)?.name ?? "—",
+  }));
+
+  const columns = [
+    { key: "title", label: "Title" },
+    { key: "description", label: "Description" },
+    { key: "assigneeName", label: "Assignee" },
+    { key: "priority", label: "Priority" },
+    { key: "dueDate", label: "Due Date" },
+  ] satisfies { key: keyof TaskRow; label: string }[];
+
+  return <DataTable<TaskRow> data={data} columns={columns} />;
 }

@@ -2,9 +2,9 @@ export type ID = string;
 
 export type Status = 'active' | 'inactive';
 
-export type Role = 'admin' | 'manager' | 'employee';
+export type Role = 'Admin' | 'Manager' | 'Employee';
 
-export type Priority = 'low' | 'medium' | 'high';
+export type Priority = 'Low' | 'Medium' | 'High';
 
 export type TaskStatus =
   | 'todo'

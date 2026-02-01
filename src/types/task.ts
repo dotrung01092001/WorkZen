@@ -4,7 +4,7 @@ export interface Task {
   id: ID;
   title: string;
   description?: string;
-  assigneeId: ID;
+  assignee: string | null;
   status: TaskStatus;
   priority: Priority;
   dueDate: string; // ISO date
@@ -12,9 +12,10 @@ export interface Task {
 }
 
 export interface CreateTaskPayload {
+  id: ID;
   title: string;
   description?: string;
-  assigneeId: ID;
+  assignee: string | null;
   priority: Priority;
   dueDate: string;
 }

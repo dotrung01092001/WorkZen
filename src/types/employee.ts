@@ -6,7 +6,6 @@ export interface Employee {
   email: string;
   role: Role;
   status: Status;
-  joinedAt: string; // ISO date
 }
 
 export interface CreateEmployeePayload {

@@ -1,14 +1,9 @@
 import { DataTable } from "@/components/commons/DataTable";
-import { type Employee } from '../types';
-import { useEmployees } from '../hooks/useEmployees';
+import { type Employee } from '../../../types/employee';
 
-interface Props {
-  onEdit: (employee: Employee) => void;
-  /* onDelete: (employee: Employee) => void; */
-}
 
-export function EmployeeTable2({ onEdit/* , onDelete */ }: Props) {
-    const { employees } = useEmployees();
+export function EmployeeTable2({onEdit, employeeState, onDelete}: {onEdit: (employee: Employee) => void, employeeState: any, onDelete: (employee: Employee) => void}) {
+    const { employees } = employeeState;
 
   const columns = [
     { key: 'name', label: 'Name' },
@@ -28,7 +23,7 @@ export function EmployeeTable2({ onEdit/* , onDelete */ }: Props) {
             color:
               row.status === 'active' ? '#166534' : '#991b1b',
             width: 'full',
-          }}
+          }}  
         >
           {row.status}
         </span>
@@ -40,7 +35,7 @@ export function EmployeeTable2({ onEdit/* , onDelete */ }: Props) {
       render: (row: Employee) => (
         <div style={{ display: 'flex', gap: 8 }}>
           <button
-            onClick={() => onEdit(row)}
+            onClick={() => onEdit(row)} 
             style={{
               padding: '4px 16px',
               backgroundColor: 'blue',
@@ -52,7 +47,7 @@ export function EmployeeTable2({ onEdit/* , onDelete */ }: Props) {
             Edit
           </button>
           <button className="hover:bg-blue-400"
-            /* onClick={() => onDelete(row)} */
+            onClick={() => onDelete(row)}
             style={{
               padding: '4px 16px',
               backgroundColor: 'red',

@@ -1,18 +1,18 @@
-import { type Employee } from '@/features/employees/types';
+import { type Employee } from '../types/employee';
 
 export const EMPLOYEES_MOCK: Employee[] = [
   {
     id: '1',
     name: 'John Doe',
     email: 'john@example.com',
-    role: 'admin',
+    role: 'Admin',
     status: 'active',
   },
   {
     id: '2',
     name: 'Jane Smith',
     email: 'jane@example.com',
-    role: 'staff',
+    role: 'Employee',
     status: 'inactive',
   },
 ];

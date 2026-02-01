@@ -1,9 +1,9 @@
 import { DataTable } from '@/components/commons/DataTable';
-import { useEmployees } from '../hooks/useEmployees';
-import { type Employee } from '../types';
+import { useEmployee } from '../../../contexts/EmployeeContext';
+import { type Employee } from '../../../types/employee';
 
 export function EmployeeTable() {
-  const { employees } = useEmployees();
+  const { employees } = useEmployee();
 
   const columns = [
     { key: 'name', label: 'Name' },
