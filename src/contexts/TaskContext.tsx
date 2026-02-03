@@ -12,18 +12,24 @@ type TaskContextType = {
 const TaskContext = createContext<TaskContextType | null>(null);
 
 export function TaskProvider({ children }: { children: React.ReactNode }) {
-    const [tasks, setTasks] = useState<Task[]>(MOCK_TASKS);
+    const [tasks, setTasks] = useState<Task[]>(() => {
+        const stored = localStorage.getItem('tasks');
+        return stored ? JSON.parse(stored) : MOCK_TASKS;
+    });
 
     const addTask = (task: Task) => {
         setTasks([...tasks, task]);
+        localStorage.setItem('tasks', JSON.stringify([...tasks, task]));
     }
 
     const updateTask = (task: Task) => { 
         setTasks(tasks.map(t => t.id === task.id ? task : t));
+        localStorage.setItem('tasks', JSON.stringify(tasks.map(t => t.id === task.id ? task : t)));
     }
 
     const removeTask = (id: string) => {
         setTasks(tasks.filter(task => task.id !== id));
+        localStorage.setItem('tasks', JSON.stringify(tasks.filter(task => task.id !== id)));
     }
 
     return (

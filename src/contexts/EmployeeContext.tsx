@@ -12,18 +12,24 @@ type EmployeeContextType = {
 const EmployeeContext = createContext<EmployeeContextType | null>(null);
 
 export function EmployeeProvider({ children }: { children: React.ReactNode }) {
-  const [employees, setEmployees] = useState<Employee[]>(EMPLOYEES_MOCK);
+  const [employees, setEmployees] = useState<Employee[]>(() => {
+    const stored = localStorage.getItem('employees');
+    return stored ? JSON.parse(stored) : EMPLOYEES_MOCK;
+  });
 
   const addEmployee = (employee: Employee) => {
     setEmployees([...employees, employee]);
+    localStorage.setItem('employees', JSON.stringify([...employees, employee]));
   };
 
   const updateEmployee = (employee: Employee) => {
     setEmployees(employees.map(emp => emp.id === employee.id ? employee : emp));
+    localStorage.setItem('employees', JSON.stringify(employees.map(emp => emp.id === employee.id ? employee : emp)));
   };
 
   const removeEmployee = (id: string) => {
     setEmployees(employees.filter(employee => employee.id !== id));
+    localStorage.setItem('employees', JSON.stringify(employees.filter(employee => employee.id !== id)));
   };
 
   return (

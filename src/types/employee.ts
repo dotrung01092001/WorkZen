@@ -6,6 +6,7 @@ export interface Employee {
   email: string;
   role: Role;
   status: Status;
+  password: string;
 }
 
 export interface CreateEmployeePayload {

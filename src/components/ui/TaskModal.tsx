@@ -36,6 +36,12 @@ const TaskModal = ({setIsOpenModal}) => {
   return (
     <div className="relative bg-white dark:bg-gray-800 p-10 w-130">
       <h1 className="text-center font-semibold text-xl">Add New Task</h1>
+      <button
+        onClick={() => setIsOpenModal(false)}
+        className="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 hover:bg-red-400 font-semibold cursor-pointer"
+      >
+        X
+      </button>
       <form className="space-y-2" onSubmit={handleSubmit}>
         <label className="block text-sm font-medium mb-1">Title</label>
         <input

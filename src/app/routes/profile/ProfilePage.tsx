@@ -1,27 +1,34 @@
+import Header from '@/components/layout/Header';
 import PasswordInput from '@/components/ui/PasswordInput';
-import Avatar from '../../../assets/mèo.jfif'
+import SaveButton from '@/components/ui/SaveButton';
+import { useAuth } from '@/hooks/useAuth';
+
 const ProfilePage = () => {
+  const { user } = useAuth();
+
   return (
-    <div>
+    <div className='bg-white dark:bg-black min-h-screen'>
+    <Header />
+    <div className='w-[80vw] mx-auto bg-[#cce1fa] p-6 rounded-2xl mt-20'>
         <div className="p-4">
-        <div className='flex bg-white p-3 rounded-xl mb-4'>
-          <img className='w-20 h-20 rounded-full mr-4' src={Avatar} alt="Avatar" />
-          <div>
-            <p className='font-semibold text-xl'>John Doe</p>
-            <p className='font-semibold text-lg'>Staff</p>
-            <p className='text-gray-500'>john@example.com</p>
+        <div className='flex bg-white dark:bg-black p-3 rounded-xl mb-4'>
+          <div className='mx-4'>
+            <p className='font-semibold text-2xl dark:text-white'>{user?.name}</p>
+            <p className='font-semibold text-lg dark:text-white'>{user?.role}</p>
+            <p className='text-gray-500'>{user?.email}</p>
           </div>
         </div>
 
-        <div className='bg-white rounded-xl p-4'>
-          <button className='text-xl font-semibold pb-4 w-full flex justify-start cursor-pointer'>Password</button>
-          <p className='pb-4'>Change Password</p>
+        <form className='bg-white dark:bg-black rounded-xl p-4'>
+          <button className='text-xl font-semibold dark:text-white pb-4 w-full flex justify-start cursor-pointer'>Password</button>
+          <p className='pb-4 dark:text-white'>Change Password</p>
           <PasswordInput PlaceHolder='Current Password' Name='current' />
           <PasswordInput PlaceHolder='New Password' Name='new' />
           <PasswordInput PlaceHolder='Confirm Password' Name='confirm' />
-          <button>Save Changes</button>
-        </div>
+          <SaveButton />
+        </form>
       </div>
+    </div>
     </div>
   )
 }

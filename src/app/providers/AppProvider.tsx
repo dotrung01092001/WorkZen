@@ -6,14 +6,14 @@ import { TaskProvider } from "@/contexts/TaskContext";
 
 export function AppProviders({ children }) {
   return (
-    <AuthProvider>
-      <UIProvider>
-        <ThemeProvider>
-          <EmployeeProvider>
+    <ThemeProvider>
+      <EmployeeProvider>
+        <AuthProvider>
+          <UIProvider>
             <TaskProvider>{children}</TaskProvider>
-          </EmployeeProvider>
-        </ThemeProvider>
-      </UIProvider>
-    </AuthProvider>
+          </UIProvider>
+        </AuthProvider>
+      </EmployeeProvider>
+    </ThemeProvider>
   );
 }

@@ -20,6 +20,7 @@ export function TaskTable() {
     { key: "description", label: "Description" },
     { key: "assigneeName", label: "Assignee" },
     { key: "priority", label: "Priority" },
+    { key: "status", label: "Status" },
     { key: "dueDate", label: "Due Date" },
   ] satisfies { key: keyof TaskRow; label: string }[];
 

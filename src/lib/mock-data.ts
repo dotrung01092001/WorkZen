@@ -7,6 +7,7 @@ export const EMPLOYEES_MOCK: Employee[] = [
     email: 'john@example.com',
     role: 'Admin',
     status: 'active',
+    password:'',
   },
   {
     id: '2',
@@ -14,5 +15,6 @@ export const EMPLOYEES_MOCK: Employee[] = [
     email: 'jane@example.com',
     role: 'Employee',
     status: 'inactive',
+    password: '',
   },
 ];

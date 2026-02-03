@@ -1,23 +1,35 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { MainLayout } from "./layouts/MainLayout";
+import ProtectedRoute from "@/components/commons/ProtectedRoute";
 
 import DashboardPage from "./routes/dashboard/DashboardPage";
 import EmployeesPage from "./routes/employees/EmployeesPage";
 import TasksPage from "./routes/tasks/TasksPage";
 import SettingsPage from "./routes/settings/SettingsPage";
+
 import { useState } from "react";
+import { LoginPage } from "./routes/login/LoginPage";
+import ProfilePage from "./routes/profile/ProfilePage";
 
 export function App() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  const handleOpen: ()=> void = () => {
-    setIsOpen(!isOpen)
-  }
+  const handleOpen: () => void = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<MainLayout isOpen={isOpen} handleOpen={handleOpen} />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          element={
+            <ProtectedRoute>
+              <MainLayout isOpen={isOpen} handleOpen={handleOpen} />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/employees" element={<EmployeesPage />} />

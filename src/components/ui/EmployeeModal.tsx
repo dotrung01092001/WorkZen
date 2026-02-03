@@ -16,7 +16,7 @@ const EmployeeModal = ({ setIsOpenModal, employee, employeeState }: ModalProps) 
   // form state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState<Role>("employee");
+  const [role, setRole] = useState<Role>("Employee");
   const [status, setStatus] = useState<Status>("active");
 
   // prefill form khi edit
@@ -37,6 +37,7 @@ const EmployeeModal = ({ setIsOpenModal, employee, employeeState }: ModalProps) 
       email,
       role,
       status,
+      password: ''
     };
 
     if (employee) {
@@ -55,7 +56,7 @@ const EmployeeModal = ({ setIsOpenModal, employee, employeeState }: ModalProps) 
       </h1>
       <button
         onClick={() => setIsOpenModal(false)}
-        className="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-500 hover:bg-red-400 font-semibold cursor-pointer"
+        className="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 hover:bg-red-400 font-semibold cursor-pointer"
       >
         X
       </button>
