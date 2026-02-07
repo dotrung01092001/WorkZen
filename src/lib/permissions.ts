@@ -1,13 +1,21 @@
-export type Role = 'admin' | 'staff';
+export const PERMISSIONS = {
+  Admin: {
+    settings: true,
+    employees: true,
+    task: 'ALL',
+  },
 
-export const permissions = {
-  admin: ['view_employees', 'edit_employees', 'view_tasks'],
-  staff: ['view_tasks'],
-};
+  Manager: {
+    settings: false,
+    employees: true,
+    task: 'ALL'
+  },
 
-export function hasPermission(
-  role: Role,
-  permission: string
-): boolean {
-  return permissions[role]?.includes(permission) ?? false;
-}
+  Employee: {
+    settings: false,
+    employees: false,
+    task: 'OWN'
+  }
+} as const;
+
+export type TaskPermission = 'ALL' | 'OWN';

@@ -10,6 +10,7 @@ import SettingsPage from "./routes/settings/SettingsPage";
 import { useState } from "react";
 import { LoginPage } from "./routes/login/LoginPage";
 import ProfilePage from "./routes/profile/ProfilePage";
+import { RoleGuard } from "@/components/commons/RoleGuard";
 
 export function App() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -32,9 +33,23 @@ export function App() {
         >
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/employees" element={<EmployeesPage />} />
+          <Route
+            path="/employees"
+            element={
+              <RoleGuard allow={["Admin", "Manager"]}>
+                <EmployeesPage />
+              </RoleGuard>
+            }
+          />
           <Route path="/tasks" element={<TasksPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route
+            path="/settings"
+            element={
+              <RoleGuard allow={["Admin"]}>
+                <SettingsPage />
+              </RoleGuard>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

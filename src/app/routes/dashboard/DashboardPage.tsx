@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 export default function DashboardPage() {
   return (
-    <div className="bg-gray-200 dark:bg-black text-black dark:text-white h-[85vh] w-full rounded-xl p-4">
+    <div className="bg-gray-200 dark:bg-black text-black dark:text-white h-[85vh] w-full rounded-xl p-4 overflow-y-auto">
       <h1 className="text-2xl font-semibold mb-4">Dashboard</h1>
 
       <div className="grid grid-cols-4 gap-4">

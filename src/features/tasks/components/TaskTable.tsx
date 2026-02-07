@@ -2,14 +2,19 @@ import { useTask } from "@/contexts/TaskContext";
 import type { Task } from "@/types/task";
 import { DataTable } from "@/components/commons/DataTable";
 import { useEmployee } from "@/contexts/EmployeeContext";
+import { useAuth } from "@/hooks/useAuth";
+import { filterTasksByRole } from "@/utils/filterTasksByRole";
 
 export function TaskTable() {
   const { tasks } = useTask();
   const { employees } = useEmployee();
+  const { user } = useAuth();
+
+  const filteredTasks = user ? filterTasksByRole(tasks, user) : tasks;
 
   type TaskRow = Task & { assigneeName: string };
 
-  const data: TaskRow[] = tasks.map(task => ({
+  const data: TaskRow[] = filteredTasks.map(task => ({
     ...task,
     assigneeName:
       employees.find(e => e.id === task.assignee)?.name ?? "—",

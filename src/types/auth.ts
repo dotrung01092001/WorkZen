@@ -5,6 +5,7 @@ export interface AuthUser {
   name: string;
   email: string;
   role: Role;
+  password: string,
 }
 
 export interface AuthContextValue {
