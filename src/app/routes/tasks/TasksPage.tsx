@@ -1,12 +1,15 @@
 import AddButton from "@/components/ui/AddButton";
 import TaskModal from "@/components/ui/TaskModal";
-import { TaskTable } from "@/features/tasks/components/TaskTable";
+import TaskTable2 from "@/features/tasks/components/TaskTable2";
+import type { Task } from "@/types/task";
 import { useState } from "react";
 
 export default function TasksPage() {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   const onAdd = () => {
+    setEditingTask(null);
     setIsOpenModal(true);
   };
 
@@ -16,7 +19,7 @@ export default function TasksPage() {
 
       <AddButton title="Add Tasks" onAdd={onAdd} />
 
-      <TaskTable />
+      <TaskTable2 setIsOpenModal={setIsOpenModal} setEditingTask={setEditingTask} />
 
       {isOpenModal && (
         <div
@@ -28,7 +31,7 @@ export default function TasksPage() {
       {isOpenModal && (
         <div className="fixed right-80 top-10 z-9999 flex justify-center items-center">
           <div onClick={(e) => e.stopPropagation()}>
-            <TaskModal setIsOpenModal={setIsOpenModal} />
+            <TaskModal setIsOpenModal={setIsOpenModal} editingTask={editingTask} />
           </div>
         </div>
       )}

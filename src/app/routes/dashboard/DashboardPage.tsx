@@ -1,10 +1,12 @@
-import { EmployeeTable } from "@/features/employees/components/EmployeeTable";
-import { TaskTable } from "@/features/tasks/components/TaskTable";
+import { EmployeeTable3 } from "@/features/employees/components/EmployeeTable3";
+import TaskTable2 from "@/features/tasks/components/TaskTable2";
+import { useAuth } from "@/hooks/useAuth";
 import { NavLink } from "react-router-dom";
 
 export default function DashboardPage() {
+
   return (
-    <div className="bg-gray-200 dark:bg-black text-black dark:text-white h-[85vh] w-full rounded-xl p-4 overflow-y-auto">
+    <div className="bg-white dark:bg-black text-black dark:text-white h-[85vh] w-full rounded-xl p-4 overflow-y-auto">
       <h1 className="text-2xl font-semibold mb-4">Dashboard</h1>
 
       <div className="grid grid-cols-4 gap-4">
@@ -20,11 +22,11 @@ export default function DashboardPage() {
       </div>
 
       <div className="flex gap-10 mt-6">
-        <NavLink to='/employees' className='flex-1'>
-          <EmployeeTable />
+         <NavLink to='/employees' className='flex-1'>
+          <EmployeeTable3 />
         </NavLink>
         <NavLink to='/tasks' className='flex-1'>
-          <TaskTable />
+          <TaskTable2 />
         </NavLink>
       </div>
     </div>

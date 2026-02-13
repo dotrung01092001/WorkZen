@@ -1,6 +1,6 @@
 import EmployeeModal from "@/components/ui/EmployeeModal";
 import { useEmployee } from '../../../contexts/EmployeeContext';
-import { EmployeeTable2 } from "@/features/employees/components/EmployeeTable2";
+import { EmployeeTable4 } from "@/features/employees/components/EmployeeTable4";
 import type { Employee } from "@/types/employee";
 import { useState } from "react";
 import AddButton from "@/components/ui/AddButton";
@@ -31,7 +31,7 @@ export default function SettingsPage() {
 
         <AddButton onAdd={onAdd} title="Add Employee" />
 
-        <EmployeeTable2 onEdit={onEdit} employeeState={employeeState} onDelete={onDelete} />
+        <EmployeeTable4 onEdit={onEdit} employeeState={employeeState} onDelete={onDelete} />
       </div>
 
 

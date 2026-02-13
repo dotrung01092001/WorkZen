@@ -6,9 +6,9 @@ export function MainLayout({isOpen, handleOpen}: MainLayoutProps) {
   return (
     <div>
       <Header handleOpen={handleOpen} />
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen overflow-x-hidden">
         <Sidebar isOpen={isOpen} handleOpen={handleOpen}  />
-        <div className=" px-6 mt-[12vh] pt-4 bg-black dark:bg-white flex-1">
+        <div className=" px-6 mt-[12vh] pt-4 bg-black dark:bg-white flex-1 ">
           <Outlet />
         </div>
       </div>

@@ -22,7 +22,7 @@ const AssigneeInput = ({ value, onChange }) => {
     }
   }, [value]);
 
-  // click outside
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

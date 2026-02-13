@@ -1,41 +1,62 @@
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import { type Priority, type TaskStatus } from "@/types/common";
 import AssigneeInput from "./AssigneeInput";
 import SaveButton from "./SaveButton";
 import { useTask } from "@/contexts/TaskContext";
 import type { Task } from "@/types/task";
 import type { Employee } from "@/types/employee";
+import { useEmployee } from "@/contexts/EmployeeContext";
 
-const TaskModal = ({setIsOpenModal}) => {
-  const { tasks, addTask } = useTask();
+const TaskModal = ({ setIsOpenModal, editingTask }) => {
+  const { employees } = useEmployee();
+  const { tasks, addTask, updateTask } = useTask();
   const [assignee, setAssignee] = useState<Employee | null>(null);
 
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [priority, setPriority] = useState<Priority>("Low");
-  const [dueDate, setDueDate] = useState<string>('')
+  const [dueDate, setDueDate] = useState<string>("");
+
+  useEffect(() => {
+    if (editingTask) {
+      setTitle(editingTask.title);
+      setDescription(editingTask.description);
+      setPriority(editingTask.priority);
+      setDueDate(editingTask.dueDate);
+      const foundEmployee = employees.find(
+      (e) => e.id === editingTask.assignee
+    );
+
+    setAssignee(foundEmployee ?? null);
+    }
+  }, [editingTask]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     const payload: Task = {
-      id: crypto.randomUUID(),
+      id: editingTask ? editingTask.id : crypto.randomUUID(),
       title,
       description,
       priority,
       assignee: assignee ? assignee.id : null,
       dueDate,
       status: "todo" as TaskStatus,
-      createdAt: new Date().toISOString(),
+      createdAt: editingTask?.createdAt ?? new Date().toISOString(),
     };
 
-    addTask(payload);
+    if (editingTask) {
+      updateTask(payload);
+    } else {
+      addTask(payload);
+    }
 
     setIsOpenModal(false);
   };
 
   return (
     <div className="relative bg-white dark:bg-gray-800 p-10 w-130">
-      <h1 className="text-center font-semibold text-xl">Add New Task</h1>
+      <h1 className="text-center font-semibold text-xl">{editingTask ? "Edit Task" : "Add New Task"}</h1>
       <button
         onClick={() => setIsOpenModal(false)}
         className="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 hover:bg-red-400 font-semibold cursor-pointer"
@@ -74,7 +95,12 @@ const TaskModal = ({setIsOpenModal}) => {
           <option className="dark:text-black">High</option>
         </select>
         <label className="block text-sm font-medium my-1">Due Date</label>
-        <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="mt-1 w-full border rounded px-3 py-2" />
+        <input
+          type="date"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          className="mt-1 w-full border rounded px-3 py-2"
+        />
 
         <SaveButton />
       </form>

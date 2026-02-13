@@ -4,9 +4,11 @@ import { DataTable } from "@/components/commons/DataTable";
 import { useEmployee } from "@/contexts/EmployeeContext";
 import { useAuth } from "@/hooks/useAuth";
 import { filterTasksByRole } from "@/utils/filterTasksByRole";
+import TaskStatusInput from "@/components/ui/TaskStatusInput";
+import type { JSX } from "react";
 
 export function TaskTable() {
-  const { tasks } = useTask();
+  const { tasks, updateTaskStatus } = useTask();
   const { employees } = useEmployee();
   const { user } = useAuth();
 
@@ -14,10 +16,9 @@ export function TaskTable() {
 
   type TaskRow = Task & { assigneeName: string };
 
-  const data: TaskRow[] = filteredTasks.map(task => ({
+  const data: TaskRow[] = filteredTasks.map((task) => ({
     ...task,
-    assigneeName:
-      employees.find(e => e.id === task.assignee)?.name ?? "—",
+    assigneeName: employees.find((e) => e.id === task.assignee)?.name ?? "—",
   }));
 
   const columns = [
@@ -25,9 +26,22 @@ export function TaskTable() {
     { key: "description", label: "Description" },
     { key: "assigneeName", label: "Assignee" },
     { key: "priority", label: "Priority" },
-    { key: "status", label: "Status" },
+    {
+      key: "status",
+      label: "Status",
+      render: (row: TaskRow) => (
+        <TaskStatusInput
+          value={row.status}
+          onChange={(status) => updateTaskStatus(row.id, status)}
+        />
+      ),
+    },
     { key: "dueDate", label: "Due Date" },
-  ] satisfies { key: keyof TaskRow; label: string }[];
+  ] satisfies {
+    key: keyof TaskRow;
+    label: string;
+    render?: (row: TaskRow) => JSX.Element;
+  }[];
 
   return <DataTable<TaskRow> data={data} columns={columns} />;
 }

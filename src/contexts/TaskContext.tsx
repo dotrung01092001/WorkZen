@@ -1,12 +1,14 @@
 import { useState, createContext, useContext } from "react";
 import { type Task } from "@/types/task";
 import { MOCK_TASKS } from "@/lib/mock-tasks";
+import type { TaskStatus } from "@/types/common";
 
 type TaskContextType = {
     tasks: Task[];
     addTask: (task: Task) => void;
     updateTask: (task: Task) => void;
     removeTask: (id: string) => void;
+    updateTaskStatus: (id: string, status: TaskStatus) => void;
 };
 
 const TaskContext = createContext<TaskContextType | null>(null);
@@ -32,8 +34,13 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem('tasks', JSON.stringify(tasks.filter(task => task.id !== id)));
     }
 
+    const updateTaskStatus = (id: string, status: TaskStatus) => {
+        setTasks(tasks.map(task => task.id === id ? { ...task, status } : task));
+        localStorage.setItem('tasks', JSON.stringify(tasks.map(task => task.id === id ? { ...task, status } : task)));
+    }
+
     return (
-        <TaskContext.Provider value={{ tasks, addTask, updateTask, removeTask }}>
+        <TaskContext.Provider value={{ tasks, addTask, updateTask, removeTask, updateTaskStatus }}>
             {children}
         </TaskContext.Provider>
     );

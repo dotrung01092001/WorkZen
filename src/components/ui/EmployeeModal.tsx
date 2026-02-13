@@ -17,7 +17,7 @@ const EmployeeModal = ({ setIsOpenModal, employee, employeeState }: ModalProps) 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<Role>("Employee");
-  const [status, setStatus] = useState<Status>("active");
+  const [status, setStatus] = useState<Status>("Active");
 
   // prefill form khi edit
   useEffect(() => {

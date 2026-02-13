@@ -1,6 +1,6 @@
 export type ID = string;
 
-export type Status = 'active' | 'inactive';
+export type Status = 'Active' | 'Inactive';
 
 export type Role = 'Admin' | 'Manager' | 'Employee';
 

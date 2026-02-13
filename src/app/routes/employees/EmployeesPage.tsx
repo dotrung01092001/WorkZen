@@ -1,4 +1,5 @@
-import { EmployeeTable } from '@/features/employees/components/EmployeeTable';
+/* import { EmployeeTable } from '@/features/employees/components/EmployeeTable';
+ */import { EmployeeTable3 } from '@/features/employees/components/EmployeeTable3';
 
 export default function EmployeesPage() {
   return (
@@ -7,7 +8,8 @@ export default function EmployeesPage() {
         <h1 className="text-2xl font-semibold">Employees</h1>
       </div>
 
-      <EmployeeTable />
+      {/* <EmployeeTable /> */}
+      <EmployeeTable3 />
     </div>
   );
 }
