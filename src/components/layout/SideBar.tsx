@@ -3,7 +3,7 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { MdPeopleAlt } from "react-icons/md";
 import { HiClipboardList } from "react-icons/hi";
 import { HiCog6Tooth } from "react-icons/hi2";
-import {motion} from "motion/react"
+import { motion } from "motion/react";
 
 const items = [
   { to: "/dashboard", label: "Dashboard", icon: MdSpaceDashboard },
@@ -12,12 +12,12 @@ const items = [
   { to: "/settings", label: "Settings", icon: HiCog6Tooth },
 ];
 
-export function Sidebar({ isOpen, handleOpen }) {
+export function Sidebar({ isOpen }: { isOpen: boolean }) {
   return (
     <aside
       className={`
     mt-[12vh] bg-black dark:bg-white dark:text-black text-white h-[88vh]
-    transition-[width] duration-300
+    transition-[width] duration-300 max-md:hidden
     ${isOpen ? "w-45 p-4" : "w-16 py-4 px-2"}
   `}
     >
@@ -45,7 +45,9 @@ export function Sidebar({ isOpen, handleOpen }) {
                   }`}
                 />
                 {isOpen && (
-                  <motion.span initial={false}  className="text-sm font-medium">{item.label}</motion.span>
+                  <motion.span initial={false} className="text-sm font-medium">
+                    {item.label}
+                  </motion.span>
                 )}
               </>
             )}

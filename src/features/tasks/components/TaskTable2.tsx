@@ -18,12 +18,20 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import TaskTableSkeleTon from "./TaskTableSkeleton";
+import { useRouteLoading } from "@/hooks/useRouterLoading";
 
 const TaskTable2 = ({ setIsOpenModal, setEditingTask }) => {
-  const { tasks, updateTaskStatus, updateTask, removeTask } = useTask();
+  const { tasks, updateTaskStatus, updateTask, removeTask, isLoading, error } =
+    useTask();
   const { employees } = useEmployee();
   const { user } = useAuth();
   const { search } = useSearchStore();
+  const isRouterLoading = useRouteLoading(600);
+
+  if (isLoading) return <TaskTableSkeleTon />;
+
+  if (isRouterLoading) return <TaskTableSkeleTon />
 
   const filteredTasks = (user ? filterTasksByRole(tasks, user) : tasks).filter(
     (task) => {

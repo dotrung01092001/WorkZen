@@ -35,7 +35,7 @@ const TaskTitle = ({
       {isOpen &&
         createPortal(
           <div
-            className="fixed z-50 bg-white border p-3 shadow-lg rounded-md w-72 pointer-events-none"
+            className="fixed z-50 bg-white dark:text-black border p-3 shadow-lg rounded-md w-72 pointer-events-none"
             style={{
               top: position.y,
               left: position.x,

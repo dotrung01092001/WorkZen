@@ -17,9 +17,13 @@ export function EmployeeProvider({ children }: { children: React.ReactNode }) {
     return stored ? JSON.parse(stored) : EMPLOYEES_MOCK;
   });
 
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+  
+
   const addEmployee = (employee: Employee) => {
     setEmployees([...employees, employee]);
     localStorage.setItem('employees', JSON.stringify([...employees, employee]));
+
   };
 
   const updateEmployee = (employee: Employee) => {

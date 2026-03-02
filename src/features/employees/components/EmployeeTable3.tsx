@@ -9,10 +9,15 @@ import { useEmployee } from "@/contexts/EmployeeContext";
 import { type Employee } from "../../../types/employee";
 import { type ColumnDef } from "@tanstack/react-table";
 import { useSearchStore } from "@/store/useSearchStore";
+import {useRouteLoading} from '@/hooks/useRouterLoading'
+import TaskTableSkeleTon from '@/features/tasks/components/TaskTableSkeleton'
 
 export function EmployeeTable3() {
   const { employees } = useEmployee();
   const { search } = useSearchStore();
+
+  const isRouteLoading = useRouteLoading(600);
+  if (isRouteLoading) return <TaskTableSkeleTon />
 
   const filteredEmployees = employees.filter((employee) => {
     return (
@@ -21,6 +26,8 @@ export function EmployeeTable3() {
       employee.role.toLowerCase().includes(search.toLowerCase())
     );
   });
+
+  
 
   const columns: ColumnDef<Employee>[] = [
     {

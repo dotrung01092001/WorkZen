@@ -22,6 +22,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 
+
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -30,6 +32,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -44,11 +47,11 @@ export function DataTable2<TData, TValue>({
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 5, // 👈 đổi số item mỗi trang ở đây
+    pageSize: 5, 
   });
 
-  const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+
 
   const table = useReactTable({
     data,
@@ -70,8 +73,13 @@ export function DataTable2<TData, TValue>({
     },
   });
 
+
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, type: 'spring', stiffness: 200  }}
+    >
       <div className="flex mb-4 justify-end">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -100,7 +108,7 @@ export function DataTable2<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-hidden rounded-md border bg-white text-black dark:bg-black dark:text-white shadow-lg shadow-[#6d6d6d]">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -171,6 +179,6 @@ export function DataTable2<TData, TValue>({
           Next
         </Button>
       </div>
-    </div>
+    </motion.div>
   );
 }

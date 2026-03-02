@@ -4,9 +4,9 @@ import { DataTable2 } from "@/components/commons/DataTable2";
 import { type Employee } from "../../../types/employee";
 import { type ColumnDef } from "@tanstack/react-table";
 
-import { ArrowUpDown } from "lucide-react"
+import { ArrowUpDown } from "lucide-react";
 
-import { MoreHorizontal } from "lucide-react"
+import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSearchStore } from "@/store/useSearchStore";
+import TaskTableSkeleTon from "@/features/tasks/components/TaskTableSkeleton";
+import { useRouteLoading } from "@/hooks/useRouterLoading";
 
 export function EmployeeTable4({
   onEdit,
@@ -29,6 +31,9 @@ export function EmployeeTable4({
 }) {
   const { employees } = employeeState;
   const { search } = useSearchStore();
+
+  const isRouteLoading = useRouteLoading(600);
+  if (isRouteLoading) return <TaskTableSkeleTon />;
 
   const filteredEmployees = employees.filter((employee) => {
     return (
@@ -50,36 +55,35 @@ export function EmployeeTable4({
     {
       accessorKey: "role",
       header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Role
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Role
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
     },
     {
       accessorKey: "status",
       header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Status
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Status
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
     },
     {
       id: "actions",
       header: "Actions",
-      cell: ( {row} ) => {
-
+      cell: ({ row }) => {
         const employee = row.original;
 
         return (
@@ -92,12 +96,12 @@ export function EmployeeTable4({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => onEdit(employee)}
-              >
+              <DropdownMenuItem onClick={() => onEdit(employee)}>
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDelete(employee)}>Delete</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onDelete(employee)}>
+                Delete
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );

@@ -25,7 +25,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="relative h-[85vh] w-full rounded-xl bg-gray-100 dark:bg-black text-black dark:text-white overflow-hidden">
+    <div className="relative h-[85vh] w-full rounded-xl bg-[#bcceeb] dark:bg-[#00296b] text-black dark:text-white overflow-hidden">
       <div className="p-5 h-full overflow-auto">
         <h1 className="text-2xl font-semibold mb-4">Settings</h1>
 

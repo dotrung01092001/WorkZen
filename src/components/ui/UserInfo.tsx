@@ -19,7 +19,7 @@ const UserInfo = () => {
     }
 
   return (
-    <button onClick={() => setIsDropdown(!isDropdown)} className='flex relative items-center cursor-pointer'>
+    <button onMouseEnter={() => setIsDropdown(true)} onMouseLeave={() => setIsDropdown(false)} className='flex relative items-center cursor-pointer'>
   
       <div className='flex flex-col text-white items-start py-2'>
         <p className='text-sm font-bold dark:text-black'>Hi 👋 {user?.name}</p>

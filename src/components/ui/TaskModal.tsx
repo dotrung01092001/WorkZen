@@ -6,10 +6,12 @@ import { useTask } from "@/contexts/TaskContext";
 import type { Task } from "@/types/task";
 import type { Employee } from "@/types/employee";
 import { useEmployee } from "@/contexts/EmployeeContext";
+import { motion } from "framer-motion";
+import { MdOutlineClose } from "react-icons/md";
 
 const TaskModal = ({ setIsOpenModal, editingTask }) => {
   const { employees } = useEmployee();
-  const { tasks, addTask, updateTask } = useTask();
+  const { addTask, updateTask } = useTask();
   const [assignee, setAssignee] = useState<Employee | null>(null);
 
   const [title, setTitle] = useState<string>("");
@@ -24,10 +26,10 @@ const TaskModal = ({ setIsOpenModal, editingTask }) => {
       setPriority(editingTask.priority);
       setDueDate(editingTask.dueDate);
       const foundEmployee = employees.find(
-      (e) => e.id === editingTask.assignee
-    );
+        (e) => e.id === editingTask.assignee,
+      );
 
-    setAssignee(foundEmployee ?? null);
+      setAssignee(foundEmployee ?? null);
     }
   }, [editingTask]);
 
@@ -55,13 +57,21 @@ const TaskModal = ({ setIsOpenModal, editingTask }) => {
   };
 
   return (
-    <div className="relative bg-white dark:bg-gray-800 p-10 w-130">
-      <h1 className="text-center font-semibold text-xl">{editingTask ? "Edit Task" : "Add New Task"}</h1>
+    <motion.div
+      className="relative bg-white dark:bg-gray-800 p-10 w-130"
+      initial={{ opacity: 0, y: 200, scale: 0.8 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{opacity: 0, y: 200}}
+      transition={{ duration: 1, type: "spring", stiffness: 100 }}
+    >
+      <h1 className="text-center font-semibold text-xl">
+        {editingTask ? "Edit Task" : "Add New Task"}
+      </h1>
       <button
         onClick={() => setIsOpenModal(false)}
-        className="absolute top-2 right-2 px-2 py-1 rounded-md bg-red-600 hover:bg-red-400 font-semibold cursor-pointer"
+        className="absolute top-2 right-2 px-2 py-2 rounded-md bg-[#de0a0a] hover:bg-red-400 font-semibold cursor-pointer"
       >
-        X
+        <MdOutlineClose />
       </button>
       <form className="space-y-2" onSubmit={handleSubmit}>
         <label className="block text-sm font-medium mb-1">Title</label>
@@ -104,7 +114,7 @@ const TaskModal = ({ setIsOpenModal, editingTask }) => {
 
         <SaveButton />
       </form>
-    </div>
+    </motion.div>
   );
 };
 
