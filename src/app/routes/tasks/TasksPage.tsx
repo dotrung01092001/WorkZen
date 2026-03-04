@@ -4,10 +4,13 @@ import TaskTable2 from "@/features/tasks/components/TaskTable2";
 import type { Task } from "@/types/task";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Popup from "@/components/ui/Popup";
+import { useTask } from "@/contexts/TaskContext";
 
 export default function TasksPage() {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const { isAdded } = useTask();
 
   const onAdd = () => {
     setEditingTask(null);
@@ -48,14 +51,33 @@ export default function TasksPage() {
               initial={{ opacity: 0, y: 200, scale: 0.8 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 200, scale: 0.8 }}
-              transition={{ type: "spring", stiffness: 100, damping: 20, duration: 1 }}
-              onClick={(e) => e.stopPropagation()} // tránh click ra ngoài đóng
+              transition={{
+                type: "spring",
+                stiffness: 100,
+                damping: 20,
+                duration: 1,
+              }}
+              onClick={(e) => e.stopPropagation()}
             >
               <TaskModal
                 setIsOpenModal={setIsOpenModal}
                 editingTask={editingTask}
               />
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isAdded && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-21.5 right-7 z-9999"
+          >
+            <Popup message="Task added successfully!" />
           </motion.div>
         )}
       </AnimatePresence>

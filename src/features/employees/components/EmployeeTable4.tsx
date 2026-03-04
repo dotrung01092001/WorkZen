@@ -19,6 +19,7 @@ import {
 import { useSearchStore } from "@/store/useSearchStore";
 import TaskTableSkeleTon from "@/features/tasks/components/TaskTableSkeleton";
 import { useRouteLoading } from "@/hooks/useRouterLoading";
+import EmployeeTableSkeleton2 from "./EmployeeTableSkeleton2";
 
 export function EmployeeTable4({
   onEdit,
@@ -33,7 +34,7 @@ export function EmployeeTable4({
   const { search } = useSearchStore();
 
   const isRouteLoading = useRouteLoading(600);
-  if (isRouteLoading) return <TaskTableSkeleTon />;
+  if (isRouteLoading) return <EmployeeTableSkeleton2 />;
 
   const filteredEmployees = employees.filter((employee) => {
     return (

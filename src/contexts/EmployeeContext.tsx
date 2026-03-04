@@ -7,6 +7,7 @@ type EmployeeContextType = {
   addEmployee: (employee: Employee) => void;
   updateEmployee: (employee: Employee) => void;
   removeEmployee: (id: string) => void;
+  isAdded: boolean;
 };
 
 const EmployeeContext = createContext<EmployeeContextType | null>(null);
@@ -23,7 +24,9 @@ export function EmployeeProvider({ children }: { children: React.ReactNode }) {
   const addEmployee = (employee: Employee) => {
     setEmployees([...employees, employee]);
     localStorage.setItem('employees', JSON.stringify([...employees, employee]));
-
+    
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2500);
   };
 
   const updateEmployee = (employee: Employee) => {
@@ -37,7 +40,7 @@ export function EmployeeProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <EmployeeContext.Provider value={{ employees, addEmployee, updateEmployee, removeEmployee }}>
+    <EmployeeContext.Provider value={{ employees, addEmployee, updateEmployee, removeEmployee, isAdded }}>
       {children}
     </EmployeeContext.Provider>
   );

@@ -16,7 +16,8 @@ type TaskContextType = {
   addTask: (task: Task) => void
   updateTask: (task: Task) => void
   removeTask: (id: string) => void
-  updateTaskStatus: (id: string, status: TaskStatus) => void
+  updateTaskStatus: (id: string, status: TaskStatus) => void;
+  isAdded: boolean;
 }
 
 const TaskContext = createContext<TaskContextType | null>(null)
@@ -39,6 +40,8 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
   const [tasks, setTasks] = useState<Task[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const [isAdded, setIsAdded] = useState<boolean>(false)
 
   // 🔹 Fetch giống API thật
   useEffect(() => {
@@ -64,6 +67,8 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
   // 🔹 Actions (giống gọi API nhưng sync local)
   const addTask = (task: Task) => {
     setTasks((prev) => [...prev, task])
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2500);
   }
 
   const updateTask = (task: Task) => {
@@ -96,6 +101,7 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
         updateTask,
         removeTask,
         updateTaskStatus,
+        isAdded
       }}
     >
       {children}

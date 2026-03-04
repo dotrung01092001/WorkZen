@@ -10,14 +10,14 @@ import { type Employee } from "../../../types/employee";
 import { type ColumnDef } from "@tanstack/react-table";
 import { useSearchStore } from "@/store/useSearchStore";
 import {useRouteLoading} from '@/hooks/useRouterLoading'
-import TaskTableSkeleTon from '@/features/tasks/components/TaskTableSkeleton'
+import EmployeeTableSkeleton1 from "./EmployeeTableSkeleton2";
 
 export function EmployeeTable3() {
   const { employees } = useEmployee();
   const { search } = useSearchStore();
 
   const isRouteLoading = useRouteLoading(600);
-  if (isRouteLoading) return <TaskTableSkeleTon />
+  if (isRouteLoading) return <EmployeeTableSkeleton1 />;
 
   const filteredEmployees = employees.filter((employee) => {
     return (
