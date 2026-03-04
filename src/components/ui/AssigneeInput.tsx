@@ -66,7 +66,7 @@ const AssigneeInput = ({ value, onChange }) => {
               <li
                 key={employee.id}
                 onClick={() => handleSelect(employee)}
-                className="cursor-pointer p-2 hover:bg-blue-500 hover:text-white"
+                className="cursor-pointer p-2 hover:bg-blue-500 dark:text-black hover:text-white"
               >
                 {employee.name}
               </li>

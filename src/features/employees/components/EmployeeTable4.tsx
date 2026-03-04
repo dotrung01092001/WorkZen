@@ -17,21 +17,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSearchStore } from "@/store/useSearchStore";
-import TaskTableSkeleTon from "@/features/tasks/components/TaskTableSkeleton";
 import { useRouteLoading } from "@/hooks/useRouterLoading";
 import EmployeeTableSkeleton2 from "./EmployeeTableSkeleton2";
+import { useEmployee } from "@/contexts/EmployeeContext";
 
 export function EmployeeTable4({
   onEdit,
   employeeState,
-  onDelete,
 }: {
   onEdit: (employee: Employee) => void;
   employeeState: any;
-  onDelete: (employee: Employee) => void;
 }) {
   const { employees } = employeeState;
   const { search } = useSearchStore();
+  const { handleOpenDialog } = useEmployee();
 
   const isRouteLoading = useRouteLoading(600);
   if (isRouteLoading) return <EmployeeTableSkeleton2 />;
@@ -100,7 +99,7 @@ export function EmployeeTable4({
               <DropdownMenuItem onClick={() => onEdit(employee)}>
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDelete(employee)}>
+              <DropdownMenuItem onClick={() => handleOpenDialog(employee)}>
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>

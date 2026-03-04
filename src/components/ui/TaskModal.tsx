@@ -9,9 +9,9 @@ import { useEmployee } from "@/contexts/EmployeeContext";
 import { motion } from "framer-motion";
 import { MdOutlineClose } from "react-icons/md";
 
-const TaskModal = ({ setIsOpenModal, editingTask }) => {
+const TaskModal = ({ setIsOpenModal, editingTask } : {setIsOpenModal: (value: boolean) => void, editingTask: Task }) => {
   const { employees } = useEmployee();
-  const { addTask, updateTask } = useTask();
+  const { addTask, updateTask, setIsUpdated } = useTask();
   const [assignee, setAssignee] = useState<Employee | null>(null);
 
   const [title, setTitle] = useState<string>("");
@@ -54,6 +54,8 @@ const TaskModal = ({ setIsOpenModal, editingTask }) => {
     }
 
     setIsOpenModal(false);
+    setIsUpdated(true);
+    setTimeout(() => setIsUpdated(false), 2500);
   };
 
   return (
@@ -61,7 +63,7 @@ const TaskModal = ({ setIsOpenModal, editingTask }) => {
       className="relative bg-white dark:bg-gray-800 p-10 w-130"
       initial={{ opacity: 0, y: 200, scale: 0.8 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{opacity: 0, y: 200}}
+      exit={{ opacity: 0, y: 200 }}
       transition={{ duration: 1, type: "spring", stiffness: 100 }}
     >
       <h1 className="text-center font-semibold text-xl">

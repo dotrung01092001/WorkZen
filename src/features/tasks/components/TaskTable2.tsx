@@ -22,7 +22,7 @@ import TaskTableSkeleTon from "./TaskTableSkeleton";
 import { useRouteLoading } from "@/hooks/useRouterLoading";
 
 const TaskTable2 = ({ setIsOpenModal, setEditingTask }) => {
-  const { tasks, updateTaskStatus, updateTask, removeTask, isLoading, error } =
+  const { tasks, updateTaskStatus, updateTask, handleOpenDialog , isLoading,  } =
     useTask();
   const { employees } = useEmployee();
   const { user } = useAuth();
@@ -134,7 +134,7 @@ const TaskTable2 = ({ setIsOpenModal, setEditingTask }) => {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  removeTask(task.id);
+                  handleOpenDialog(task.id);
                 }}
               >
                 Delete
