@@ -17,8 +17,8 @@ export function Sidebar({ isOpen }: { isOpen: boolean }) {
     <aside
       className={`
     mt-[12vh] bg-black dark:bg-white dark:text-black text-white h-[88vh]
-    transition-[width] duration-300 max-md:hidden
-    ${isOpen ? "w-45 p-4" : "w-16 py-4 px-2"}
+    transition-[width] duration-300 max-md:fixed max-md:inset-0 max-md:flex max-md:justify-center max-md:items-center max-md:w-full max-md:z-1000000 max-md:transition-transform max-md:duration-300 max-md:ease-in-out
+    ${isOpen ? "w-45 p-4 max-md:translate-x-0" : "w-16 py-4 px-2 max-md:-translate-x-full"}
   `}
     >
       <nav className="space-y-2">
@@ -38,14 +38,14 @@ export function Sidebar({ isOpen }: { isOpen: boolean }) {
             {({ isActive }) => (
               <>
                 <item.icon
-                  className={`w-5 h-5 transition-colors ${
+                  className={`w-5 h-5 max-md:w-12 max-md:h-12 transition-colors ${
                     isActive
                       ? "fill-blue-400"
                       : "fill-gray-400 group-hover:fill-white"
                   }`}
                 />
                 {isOpen && (
-                  <motion.span initial={false} className="text-sm font-medium">
+                  <motion.span initial={false} className="text-sm max-md:text-2xl font-medium">
                     {item.label}
                   </motion.span>
                 )}

@@ -75,7 +75,7 @@ export default function TasksPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.3, type: 'spring', stiffness: 200 }}
             className="fixed top-21.5 right-7 z-9999"
           >
             <Popup message="Task added successfully!" />
@@ -89,7 +89,7 @@ export default function TasksPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.3, type: 'spring', stiffness: 200 }}
             className="fixed top-21.5 right-7 z-9999"
           >
             <Popup message="Task updated successfully!" />

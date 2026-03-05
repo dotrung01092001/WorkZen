@@ -12,7 +12,7 @@ export default function EmployeeTableSkeleton2({
 }: DataTable2SkeletonProps) {
   return (
     <motion.div
-      className="space-y-4"
+      className="space-y-4 max-md:w-170"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1, type: "spring", stiffness: 200 }}

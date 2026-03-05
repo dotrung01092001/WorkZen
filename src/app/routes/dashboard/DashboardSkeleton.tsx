@@ -15,7 +15,7 @@ export default function DashboardSkeleton() {
         <Skeleton className="rounded-lg border border-gray-300 shadow-md shadow-[#6d6d6d] w-[20vw] h-20" />
         <Skeleton className="rounded-lg border border-gray-300 shadow-md shadow-[#6d6d6d] w-[20vw] h-20 ml-3" />
       </motion.div>
-      <div className="grid grid-rows-1 gap-3">
+      <div className="grid grid-rows-1 gap-3 max-md:w-170">
         <div className="grid grid-cols-2 gap-3">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -29,7 +29,7 @@ export default function DashboardSkeleton() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.65, type: "spring", stiffness: 100 }}
           >
-            <Skeleton className="h-80 w-full" />
+            <Skeleton className="h-80 w-full max-md:w-170" />
           </motion.div>
         </div>
         <TaskTableSkeleTon />
