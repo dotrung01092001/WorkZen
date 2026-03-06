@@ -1,20 +1,41 @@
-import styled from 'styled-components';
-import {motion} from 'framer-motion'
+import styled from "styled-components";
+import { motion } from "framer-motion";
 
-const Button = ({onAdd, title} : {onAdd: () => void, title: string}) => {
+const Button = ({ onAdd, title }: { onAdd: () => void; title: string }) => {
   return (
     <StyledWrapper>
-      <motion.button onClick={onAdd} className='group' initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} transition={{duration: 0.6, type: 'spring', stiffness: 300 }}>
+      <motion.button
+        onClick={onAdd}
+        className="group shadow-lg shadow-blue-500/50"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6, type: "spring", stiffness: 300 }}
+      >
         <div className="svg-wrapper-1">
           <div className="svg-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={`lucide lucide-circle-plus-icon lucide-circle-plus ${title === 'Add Tasks' ? 'group-hover:-translate-x-2' : ''}`}><circle cx={12} cy={12} r={10} /><path d="M8 12h8" /><path d="M12 8v8" /></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={24}
+              height={24}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={`lucide lucide-circle-plus-icon lucide-circle-plus ${title === "Add Tasks" ? "group-hover:-translate-x-2" : ""}`}
+            >
+              <circle cx={12} cy={12} r={10} />
+              <path d="M8 12h8" />
+              <path d="M12 8v8" />
+            </svg>
           </div>
         </div>
         <span>{title}</span>
       </motion.button>
     </StyledWrapper>
   );
-}
+};
 
 const StyledWrapper = styled.div`
   button {
@@ -70,6 +91,7 @@ const StyledWrapper = styled.div`
     to {
       transform: translateY(-0.1em);
     }
-  }`;
+  }
+`;
 
 export default Button;

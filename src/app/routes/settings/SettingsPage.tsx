@@ -122,9 +122,9 @@ export default function SettingsPage() {
             />
             <motion.div
               className="relative z-10"
-              initial={{ opacity: 0, y: 100, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 100, scale: 0.8 }}
+              initial={{ opacity: 0, y: 100, x:150, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, x:0, scale: 1 }}
+              exit={{ opacity: 0, y: 100, x:150, scale: 0.8 }}
               transition={{
                 type: "spring",
                 stiffness: 200,
