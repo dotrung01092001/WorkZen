@@ -1,6 +1,6 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { TextField } from '@/components/forms/TextField';
-import { AppButton } from '@/components/ui/AppButton';
+import { Button } from '@/components/ui/button';
 
 export function LoginForm() {
   const methods = useForm();
@@ -11,7 +11,7 @@ export function LoginForm() {
         <TextField name="email" label="Email" />
         <TextField name="password" label="Password" />
 
-        <AppButton type="submit">Login</AppButton>
+        <Button type="submit">Login</Button>
       </form>
     </FormProvider>
   );

@@ -4,56 +4,83 @@ import { MdPeopleAlt } from "react-icons/md";
 import { HiClipboardList } from "react-icons/hi";
 import { HiCog6Tooth } from "react-icons/hi2";
 import { motion } from "motion/react";
+import { usePermission } from "@/hooks/usePermission";
 
 const items = [
   { to: "/dashboard", label: "Dashboard", icon: MdSpaceDashboard },
-  { to: "/employees", label: "Employees", icon: MdPeopleAlt },
+  { to: "/employees", label: "Employees", icon: MdPeopleAlt, permission: "employees" },
   { to: "/tasks", label: "Tasks", icon: HiClipboardList },
-  { to: "/settings", label: "Settings", icon: HiCog6Tooth },
+  { to: "/settings", label: "Settings", icon: HiCog6Tooth, permission: "settings" },
 ];
 
-export function Sidebar({ isOpen }: { isOpen: boolean }) {
+interface SidebarProps {
+  isOpen: boolean;
+  handleOpen: () => void;
+}
+
+export function Sidebar({ isOpen, handleOpen }: SidebarProps) {
+  const permission = usePermission();
+  const visibleItems = items.filter((item) => {
+    if (!item.permission || !permission) {
+      return true;
+    }
+    return Boolean(permission[item.permission as "settings" | "employees"]);
+  });
+
   return (
-    <aside
-      className={`
-    mt-[12vh] bg-black dark:bg-white dark:text-black text-white h-[88vh]
-    transition-[width] duration-300 max-md:fixed max-md:inset-0 max-md:flex max-md:justify-center max-md:items-center max-md:w-full max-md:z-1000000 max-md:transition-transform max-md:duration-300 max-md:ease-in-out
-    ${isOpen ? "w-45 p-4 max-md:translate-x-0" : "w-16 py-4 px-2 max-md:-translate-x-full"}
-  `}
-    >
-      <nav className="space-y-2">
-        {items.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            className={({ isActive }) =>
-              `group flex items-center gap-3 px-3 py-2 rounded transition
-         ${
-           isActive
-             ? "bg-gray-700 text-white"
-             : "text-gray-400 hover:bg-gray-800 hover:text-white"
-         }`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                <item.icon
-                  className={`w-5 h-5 max-md:w-12 max-md:h-12 transition-colors ${
-                    isActive
-                      ? "fill-blue-400"
-                      : "fill-gray-400 group-hover:fill-white"
-                  }`}
-                />
-                {isOpen && (
-                  <motion.span initial={false} className="text-sm max-md:text-2xl font-medium">
-                    {item.label}
-                  </motion.span>
-                )}
-              </>
-            )}
-          </NavLink>
-        ))}
-      </nav>
-    </aside>
+    <>
+      <button
+        type="button"
+        className={`fixed inset-0 z-30 bg-slate-900/30 transition-opacity md:hidden ${
+          isOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        onClick={handleOpen}
+        aria-label="Close sidebar overlay"
+      />
+
+      <aside
+        className={`fixed left-0 top-16 z-40 h-[calc(100vh-4rem)] border-r border-sidebar-border bg-sidebar text-sidebar-foreground px-3 py-4 shadow-xl transition-[width,transform] duration-300 md:shadow-none ${
+          isOpen ? "w-64 translate-x-0" : "w-64 -translate-x-full md:w-20 md:translate-x-0"
+        }`}
+      >
+        <nav className="space-y-1.5">
+          {visibleItems.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              onClick={() => {
+                if (window.innerWidth < 768) {
+                  handleOpen();
+                }
+              }}
+              className={({ isActive }) =>
+                `group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors duration-150 ${
+                  isActive
+                    ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                    : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <item.icon
+                    className={`h-5 w-5 shrink-0 ${
+                      isActive
+                        ? "fill-current"
+                        : "fill-sidebar-foreground/60 group-hover:fill-current"
+                    }`}
+                  />
+                  {isOpen && (
+                    <motion.span initial={false} className="truncate">
+                      {item.label}
+                    </motion.span>
+                  )}
+                </>
+              )}
+            </NavLink>
+          ))}
+        </nav>
+      </aside>
+    </>
   );
 }

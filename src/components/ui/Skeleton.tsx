@@ -5,7 +5,7 @@ type SkeletonProps = {
 export default function Skeleton({ className = "" }: SkeletonProps) {
   return (
     <div
-      className={`animate-pulse rounded-md bg-gray-200 ${className}`}
+      className={`animate-pulse rounded-md bg-slate-200 dark:bg-slate-700/70 ${className}`}
     />
   )
 }

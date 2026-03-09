@@ -6,13 +6,13 @@ export const PERMISSIONS = {
   },
 
   Manager: {
-    settings: false,
+    settings: true,
     employees: true,
     task: 'ALL'
   },
 
   Employee: {
-    settings: false,
+    settings: true,
     employees: false,
     task: 'OWN'
   }

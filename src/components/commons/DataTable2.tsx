@@ -31,7 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 interface DataTableProps<TData, TValue> {
@@ -51,7 +51,6 @@ export function DataTable2<TData, TValue>({
   });
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-
 
   const table = useReactTable({
     data,
@@ -73,6 +72,11 @@ export function DataTable2<TData, TValue>({
     },
   });
 
+  const hideableColumns = useMemo(
+    () => table.getAllColumns().filter((column) => column.getCanHide()),
+    [table],
+  );
+
 
   return (
     <motion.div
@@ -88,31 +92,24 @@ export function DataTable2<TData, TValue>({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
+            {hideableColumns.map((column) => (
+              <DropdownMenuCheckboxItem
+                key={column.id}
+                className="capitalize"
+                checked={column.getIsVisible()}
+                onCheckedChange={(value) => column.toggleVisibility(!!value)}
+              >
+                {column.id}
+              </DropdownMenuCheckboxItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="overflow-hidden rounded-md border bg-white text-black dark:bg-black dark:text-white shadow-lg shadow-[#6d6d6d]">
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white text-slate-900 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="bg-slate-50/70 dark:bg-slate-800/60">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -148,10 +145,10 @@ export function DataTable2<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
+                  colSpan={table.getAllLeafColumns().length}
+                  className="h-28 text-center text-slate-500 dark:text-slate-400"
                 >
-                  No results.
+                  No matching records found.
                 </TableCell>
               </TableRow>
             )}
@@ -172,7 +169,6 @@ export function DataTable2<TData, TValue>({
           size="sm"
           onClick={() => {
             table.nextPage();
-            console.log(table.getState().pagination);
           }}
           disabled={!table.getCanNextPage()}
         >

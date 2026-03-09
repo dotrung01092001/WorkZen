@@ -1,37 +1,63 @@
-import { useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const UserInfo = () => {
-    const [isDropdown, setIsDropdown] = useState<boolean>(false);
-    const { logout, user } = useAuth();
-    const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { logout, user } = useAuth();
+  const navigate = useNavigate();
 
-    const handleLogout = async () => {
-        await logout();
-        navigate('/login')
-    }
-
-    const handleUser = async () => {
-      if (user) {
-        navigate('/profile') 
-      }
-    }
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
-    <button onMouseEnter={() => setIsDropdown(true)} onMouseLeave={() => setIsDropdown(false)} className='flex relative items-center cursor-pointer'>
-  
-      <div className='flex flex-col text-white items-start py-2'>
-        <p className='text-sm font-bold dark:text-black'>Hi 👋 {user?.name}</p>
-        <p className='text-sm text-gray-600'>{user?.email}</p>
-      </div>
-{isDropdown && (
-    <ul className='absolute text-white bg-gray-900 top-15 rounded-xl w-full'>
-        <li className='p-2 m-2 rounded-xl hover:outline-2 hover:outline-blue-600 hover:bg-gray-700' onClick={handleUser}>User profile</li>
-        <li className='hover:bg-red-500 p-2 m-2 rounded-xl hover:outline-2 hover:outline-blue-600' onClick={handleLogout}>Logout</li>
-    </ul>
-)}
-    </button>
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setIsDropdownOpen((prev) => !prev)}
+        className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-left transition-colors hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"
+      >
+        <span className="hidden text-right sm:block">
+          <span className="block text-xs font-semibold text-slate-900 dark:text-slate-100">
+            {user?.name ?? "Guest"}
+          </span>
+          <span className="block max-w-32 truncate text-xs text-slate-500 dark:text-slate-400">
+            {user?.email ?? "No email"}
+          </span>
+        </span>
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white dark:bg-slate-100 dark:text-slate-900">
+          {user?.name?.slice(0, 1).toUpperCase() ?? "U"}
+        </span>
+      </button>
+
+      {isDropdownOpen && (
+        <ul className="absolute right-0 top-12 z-20 w-44 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-900">
+          <li>
+            <button
+              type="button"
+              className="w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+              onClick={() => {
+                setIsDropdownOpen(false);
+                navigate("/profile");
+              }}
+            >
+              Profile
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="w-full rounded-md px-3 py-2 text-left text-sm text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </li>
+        </ul>
+      )}
+    </div>
   );
 };
 

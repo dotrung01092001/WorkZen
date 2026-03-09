@@ -10,7 +10,7 @@ const PasswordInput = ({ PlaceHolder, Name, value, onChange, error } : InputProp
   const [isShow, setIsShow] = useState<boolean>(false)
 
   return (
-    <div className="pb-8 relative">
+    <div className="pb-8 relative text-white">
       <input className={`p-2 border  w-full rounded-lg dark:text-white ${error ? 'border-red-500' : 'border-gray-300'}`} type={isShow ? 'text' : 'password'} placeholder={PlaceHolder} name={Name} value={value} onChange={(e) => onChange(e.target.value)} />
       <button type="button" onClick={() => {
         setIsShow(!isShow);

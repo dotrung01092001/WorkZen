@@ -26,7 +26,7 @@ export function EmployeeTable4({
   employeeState,
 }: {
   onEdit: (employee: Employee) => void;
-  employeeState: any;
+  employeeState: { employees: Employee[] };
 }) {
   const { employees } = employeeState;
   const { search } = useSearchStore();

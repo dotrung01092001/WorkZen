@@ -7,7 +7,7 @@ import EmployeesPage from "./routes/employees/EmployeesPage";
 import TasksPage from "./routes/tasks/TasksPage";
 import SettingsPage from "./routes/settings/SettingsPage";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { LoginPage } from "./routes/login/LoginPage";
 import ProfilePage from "./routes/profile/ProfilePage";
 import { RoleGuard } from "@/components/commons/RoleGuard";
@@ -15,9 +15,9 @@ import { RoleGuard } from "@/components/commons/RoleGuard";
 export function App() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  const handleOpen: () => void = () => {
-    setIsOpen(!isOpen);
-  };
+  const handleOpen = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
   return (
     <BrowserRouter>
@@ -44,11 +44,7 @@ export function App() {
           <Route path="/tasks" element={<TasksPage />} />
           <Route
             path="/settings"
-            element={
-              <RoleGuard allow={["Admin"]}>
-                <SettingsPage />
-              </RoleGuard>
-            }
+            element={<SettingsPage />}
           />
         </Route>
       </Routes>

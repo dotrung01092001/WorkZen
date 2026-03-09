@@ -1,11 +1,11 @@
-import Header from "@/components/layout/Header";
 import PasswordInput from "@/components/ui/PasswordInput";
-import SaveButton from "@/components/ui/SaveButton";
 import { useEmployee } from "@/contexts/EmployeeContext";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
 
 interface errorProps {
   current?: string;
@@ -67,35 +67,56 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-black min-h-screen">
-      <Header handleOpen={undefined} />
+    <div className="relative min-h-screen overflow-hidden bg-slate-950 px-4 py-8 sm:px-8">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.16),transparent_45%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.18),transparent_42%)]" />
+
       <motion.div
-        className="w-[80vw] mx-auto bg-[#bcceeb] dark:bg-[#00296b] p-6 rounded-2xl mt-20"
-        initial={{ opacity: 0, y: 200 }}
+        className="relative mx-auto mt-8 w-full max-w-4xl rounded-3xl border border-slate-700/70 bg-slate-900/75 p-5 shadow-2xl shadow-black/40 backdrop-blur sm:p-8"
+        initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, type: 'spring' }}
+        transition={{ duration: 0.45 }}
       >
-        <div className="p-4">
-          <div className="flex bg-white dark:bg-black p-3 rounded-xl mb-4">
-            <div className="mx-4">
-              <p className="font-semibold text-2xl dark:text-white">
+        <div className="mb-5 flex items-center justify-between gap-3">
+          <Button
+            type="button"
+            variant="ghost"
+            className="text-slate-300 hover:bg-slate-800 hover:text-slate-100"
+            onClick={() => navigate("/dashboard")}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Dashboard
+          </Button>
+          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-xs text-cyan-200">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            Profile Security
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="rounded-2xl border border-slate-700 bg-slate-950/70 p-5">
+            <p className="text-xs uppercase tracking-wider text-slate-400">
+              Account
+            </p>
+            <div className="mt-2">
+              <p className="text-2xl font-semibold text-slate-100">
                 {user?.name}
               </p>
-              <p className="font-semibold text-lg dark:text-white">
+              <p className="text-sm font-medium text-cyan-300">
                 {user?.role}
               </p>
-              <p className="text-gray-500">{user?.email}</p>
+              <p className="mt-1 text-sm text-slate-400">{user?.email}</p>
             </div>
           </div>
 
           <form
             onSubmit={updatePassword}
-            className="bg-white dark:bg-black rounded-xl p-4"
+            className="rounded-2xl border border-slate-700 bg-slate-950/70 p-5"
           >
-            <button className="text-xl font-semibold dark:text-white pb-4 w-full flex justify-start cursor-pointer">
-              Password
-            </button>
-            <p className="pb-4 dark:text-white">Change Password</p>
+            <p className="text-xl font-semibold text-slate-100">Change Password</p>
+            <p className="pb-4 pt-1 text-sm text-slate-400">
+              Use a strong password with at least 6 characters.
+            </p>
             <PasswordInput
               PlaceHolder="Current Password"
               Name="current"
@@ -117,7 +138,12 @@ const ProfilePage = () => {
               onChange={setConfirmPassword}
               error={error.confirm}
             />
-            <SaveButton />
+            <Button
+              type="submit"
+              className="h-10 rounded-lg bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 px-5 text-white hover:brightness-110"
+            >
+              Save Changes
+            </Button>
           </form>
         </div>
       </motion.div>

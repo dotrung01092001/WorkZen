@@ -4,7 +4,7 @@ import type { AuthUser } from '@/types/auth';
 
 interface AuthContextValue {
   user: AuthUser | null;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   loading: boolean;
 }
@@ -17,33 +17,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const stored = localStorage.getItem('auth_user');
     return stored ? JSON.parse(stored) : null;
   });
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
 
   const login = async (email: string, password: string) => {
     setLoading(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+      const found = employees.find(
+        (employee) =>
+          employee.email === email &&
+          (employee.password ? employee.password === password : password === "123456"),
+      );
 
-    const found = employees.find(
-      u => u.email === email && u.password === password,
-      setLoading(false)
-    )
-
-    if (!found) {
+      if (!found) {
         throw new Error('Invalid credentials')
+      }
+
+      const safeUser = {
+        id: found.id,
+        name: found.name,
+        email: found.email,
+        role: found.role,
+      };
+
+      setUser(safeUser);
+      localStorage.setItem('auth_user', JSON.stringify(safeUser));
+    } finally {
+      setLoading(false);
     }
-
-    const { password: _, ...safeUser } = found;
-    setUser(safeUser);
-    localStorage.setItem('auth_user', JSON.stringify(safeUser))
-
-    setLoading(false);
-  }
+  };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('auth_user')
-  }
+    localStorage.removeItem('auth_user');
+  };
 
   return (
     <AuthContext.Provider

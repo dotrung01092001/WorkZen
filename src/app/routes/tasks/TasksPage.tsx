@@ -2,16 +2,29 @@ import AddButton from "@/components/ui/AddButton";
 import TaskModal from "@/components/ui/TaskModal";
 import TaskTable2 from "@/features/tasks/components/TaskTable2";
 import type { Task } from "@/types/task";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Popup from "@/components/ui/Popup";
 import { useTask } from "@/contexts/TaskContext";
 import Dialog from "@/components/ui/Dialog";
+import TaskAdvancedFilters from "@/features/tasks/components/TaskAdvancedFilters";
+import TaskKanbanBoard from "@/features/tasks/components/TaskKanbanBoard";
+import { useTaskViewStore } from "@/store/useTaskViewStore";
+import { filterTasksAdvanced } from "@/utils/filterTasksAdvanced";
+import { useAuth } from "@/hooks/useAuth";
+import TaskActivityPanel from "@/features/tasks/components/TaskActivityPanel";
 
 export default function TasksPage() {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
-  const { isAdded, isOpenDialog, handleCloseDialog2, isUpdated } = useTask();
+  const [activityTaskId, setActivityTaskId] = useState<string>("");
+  const { user } = useAuth();
+  const { tasks, isAdded, isOpenDialog, handleCloseDialog2, isUpdated } = useTask();
+  const { mode, filters } = useTaskViewStore();
+
+  const filteredTasks = useMemo(() => {
+    return filterTasksAdvanced(tasks, filters);
+  }, [filters, tasks]);
 
   const onAdd = () => {
     setEditingTask(null);
@@ -19,15 +32,31 @@ export default function TasksPage() {
   };
 
   return (
-    <div className="h-[85vh] w-full rounded-xl p-5 bg-[#bcceeb] dark:bg-[#00296b] text-black dark:text-white">
-      <h1 className="text-2xl font-semibold mb-6">Tasks</h1>
+    <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6">
+      <h1 className="text-2xl font-semibold tracking-tight">Tasks</h1>
 
-      <AddButton title="Add Tasks" onAdd={onAdd} />
+      {user?.role !== "Employee" && <AddButton title="Add Tasks" onAdd={onAdd} />}
 
-      <TaskTable2
-        setIsOpenModal={setIsOpenModal}
-        setEditingTask={setEditingTask}
-      />
+      <TaskAdvancedFilters />
+
+      {mode === "kanban" ? (
+        <TaskKanbanBoard tasks={filteredTasks} />
+      ) : (
+        <TaskTable2
+          setIsOpenModal={setIsOpenModal}
+          setEditingTask={setEditingTask}
+          tasksOverride={filteredTasks}
+          onOpenActivity={setActivityTaskId}
+        />
+      )}
+
+      {activityTaskId && <TaskActivityPanel taskId={activityTaskId} />}
+
+      {user?.role !== "Employee" && (
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          Real-time sync is enabled across browser tabs for task updates.
+        </p>
+      )}
       <AnimatePresence>
         {isOpenModal && (
           <motion.div
@@ -39,9 +68,9 @@ export default function TasksPage() {
           >
             {/* Backdrop */}
             <motion.div
-              className="absolute inset-0 bg-black/80"
+              className="absolute inset-0 bg-black/60"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.8 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpenModal(false)}
             />
@@ -49,15 +78,10 @@ export default function TasksPage() {
             {/* Modal */}
             <motion.div
               className="relative z-10"
-              initial={{ opacity: 0, y: 200, scale: 0.8 }}
+              initial={{ opacity: 0, y: 24, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 200, scale: 0.8 }}
-              transition={{
-                type: "spring",
-                stiffness: 100,
-                damping: 20,
-                duration: 1,
-              }}
+              exit={{ opacity: 0, y: 24, scale: 0.96 }}
+              transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
             >
               <TaskModal
@@ -75,8 +99,8 @@ export default function TasksPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, type: 'spring', stiffness: 200 }}
-            className="fixed top-21.5 right-7 z-9999"
+            transition={{ duration: 0.2 }}
+            className="fixed right-4 top-20 z-50"
           >
             <Popup message="Task added successfully!" />
           </motion.div>
@@ -89,8 +113,8 @@ export default function TasksPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, type: 'spring', stiffness: 200 }}
-            className="fixed top-21.5 right-7 z-9999"
+            transition={{ duration: 0.2 }}
+            className="fixed right-4 top-20 z-50"
           >
             <Popup message="Task updated successfully!" />
           </motion.div>
@@ -107,23 +131,18 @@ export default function TasksPage() {
             transition={{ duration: 0.25 }}
           >
             <motion.div
-              className="absolute inset-0 bg-black/80"
+              className="absolute inset-0 bg-black/60"
               onClick={() => handleCloseDialog2()}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.8 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             />
             <motion.div
               className="relative z-10"
-              initial={{ opacity: 0, y: 100, x:150, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, x:0, scale: 1 }}
-              exit={{ opacity: 0, y: 100, x:150, scale: 0.8 }}
-              transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 20,
-                duration: 0.3,
-              }}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
             >
               <Dialog />
@@ -131,6 +150,6 @@ export default function TasksPage() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   );
 }

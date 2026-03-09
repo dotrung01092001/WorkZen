@@ -1,81 +1,79 @@
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
 # WorkZen
-=======
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+WorkZen is a role-based internal workflow app for managing employees and tasks.
+It is built with React + TypeScript + Vite and includes responsive UI, access control, and data management with local persistence.
 
-Currently, two official plugins are available:
+## Core Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Authentication with role-based route protection (`Admin`, `Manager`, `Employee`)
+- Dashboard with charts and task overview
+- Employee management (list, create, edit, delete)
+- Task management (list, create, edit, delete, status update)
+- Global search across tasks and employees
+- Theme toggle (light/dark)
+- Loading skeletons and motion transitions
+- Excel import for employees with duplicate detection
 
-## React Compiler
+## Excel Import (Employees)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Employees page supports importing `.xlsx`, `.xls`, and `.csv` files.
 
-## Expanding the ESLint configuration
+### Supported columns
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Required: `Name`, `Email`
+- Optional: `Role`, `Status`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Accepted aliases are also supported (for example: `Full Name`, `Mail`, `Position`, `State`, `Vai tro`, `Trang thai`).
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Validation and duplicate rules
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Rows with missing/invalid email are skipped
+- Rows with missing name are skipped
+- Existing employees are matched by normalized email (case-insensitive)
+- Duplicate emails inside the same file are skipped
+- Import summary is shown after each upload:
+  - Total rows
+  - Valid rows
+  - Added rows
+  - Duplicates already in system
+  - Duplicates inside file
+  - Invalid rows
+
+## Tech Stack
+
+- React 19
+- TypeScript
+- Vite 7
+- Tailwind CSS 4
+- TanStack Table
+- Recharts
+- Zustand
+- React Hook Form
+- XLSX (lazy-loaded on demand for Excel import)
+
+## Project Setup
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Build for production:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
 ```
->>>>>>> a11be3d (Initial commit: Settings page + Layout System)
->>>>>>> 4dab76a (Initial commit: Settings page + Layout System)
+
+Lint:
+
+```bash
+npm run lint
+```
+
+## Suggested Production Next Steps
+
+- Replace localStorage with real backend + database
+- Add audit logs for employee/task changes
+- Add automated tests (unit + integration + e2e)
+- Add CI/CD pipeline and environment configs
+- Improve chunk splitting and lazy route loading for smaller initial bundle
